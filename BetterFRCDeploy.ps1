@@ -7,9 +7,15 @@ if ($connectionStatus){
     cd "C:\Users\ItsYa\Documents\Github\v2-crescendo-2024"
     git switch $gitBranchName
     git pull
+
     netsh wlan connect name="9573_Joshua"
+    Write-Host "Connecting to Joshua..."
+    Start-Sleep -Seconds 1
+    $connectionStatus2 = netsh wlan show interfaces | Select-String -Pattern "State" | Select-String -Pattern "connected"
     
-    if ($connectionStatus){
+    if ($connectionStatus2){
+
         cmd.exe /d /c gradlew deploy  -PteamNumber=9573 --offline  -Dorg.gradle.java.home="C:\Users\Public\wpilib\2024\jdk"
-    } else {Write-Host "Connection to Joshua failed"}
-} else {Write-Host "Connection to I21WIRELESS failed"}
+
+    } else {Write-Host "Connection to Joshua failed."}
+} else {Write-Host "Connection to I21WIRELESS failed."}
